@@ -7,7 +7,17 @@ import { useNavigation } from "@react-navigation/native";
 import Profile from "./Profile";
 import ParseFile from "./ParseFile";
 export default function HomeScreen({ navigation }) {
-  const { fileUri, fileType} = useContext(FileContext);
+
+  const [backgroundUri, setBackgroundUri] = useState(null);
+  const { fileUri, fileType } = useContext(FileContext);
+  useEffect(() => {
+    // Update backgroundUri based on fileType or other conditions
+    if (fileType && fileType.startsWith('image/')) {
+      setBackgroundUri(fileUri);
+    }
+  }, [fileUri, fileType]);
+
+
   const navigaton = useNavigation();
   function handlePengiClick() {
     console.log("penguin btn clicked");
@@ -17,7 +27,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <ImageBackground
       style={{ flex: 1 }}
-      source={{ uri: fileUri }}
+      source={{ uri: backgroundUri }}
       resizeMode="cover"
     >
       <View style={styles.container}>
@@ -54,7 +64,7 @@ function Activity({ activityType }) {
 
 
         marginTop: 30, backgroundColor: "blue",
-        opacity: 0.5,
+        opacity: 0.7,
         width: 300,
         borderRadius: 20,
         height: 300,
@@ -68,9 +78,9 @@ function Activity({ activityType }) {
         }}>
           <Text style={{ color: 'white', fontSize: 16 }}>{activityType}</Text>
         </TouchableOpacity>
-        <ParseFile/>
+        <ParseFile />
       </View>
-      
+
 
 
     </View>
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
   },
   penguinIcon: {},
   insertDoc: {
-    marginTop: 30,  
+    marginTop: 30,
     alignItems: 'center'
   }
 });

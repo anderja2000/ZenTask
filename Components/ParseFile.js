@@ -20,7 +20,9 @@ export default function ParseFile() {
 
   return (
     <View>
-      <Text>ParseFile Component {fileType} & {fileUri}</Text>
+      <Text style = {{
+        color: 'white',
+      }}>ParseFile Component {fileType} & {fileUri}</Text>
       {/* Add your parsed content rendering here */}
     </View>
   );
