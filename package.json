@@ -13,10 +13,12 @@
     "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
     "@react-oauth/google": "^0.11.1",
     "axios": "^1.6.0",
     "cal-parser": "^1.0.2",
     "expo": "~49.0.15",
+    "expo-document-picker": "~11.5.4",
     "expo-status-bar": "~1.6.0",
     "ical": "^0.8.0",
     "react": "18.2.0",
@@ -24,10 +26,10 @@
     "react-native": "0.72.6",
     "react-native-app-auth": "^7.1.0",
     "react-native-calendars": "^1.1301.0",
-    "react-native-document-picker": "^8.2.1",
     "react-native-dotenv": "^3.4.9",
-    "react-native-vector-icons": "^10.0.0",
-    "expo-document-picker": "~11.5.4"
+    "react-native-fs": "^2.20.0",
+    "react-native-pdf": "^6.7.1",
+    "react-native-vector-icons": "^10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

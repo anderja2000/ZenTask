@@ -1,81 +1,76 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import FileContext from './FileContext';
 
-export default function IcsFilePicker() {
-    const [icsData, setIcsData] = useState(null);
 
-    async function PickIcsFile() {
+export default function FilePicker({ acceptedTypes }) {
+    
+    const { setFileUri, setFileType} = useContext(FileContext);
+   
+    async function PickFile() {
         try {
-            const result = await DocumentPicker.getDocumentAsync({ type: 'text/calendar' });
-
-            if (result.type === 'success') {
-                const { uri } = result;
-                const response = await fetch(uri);
-                const icsContent = await response.text();
-
-                // Parse the ICS content using a library like ical.js or another suitable library
-                // You can do the parsing and processing here
-
-                setIcsData(icsContent);
-            } else {
-                console.log("user cancelled file")
-            }
+            const result = await DocumentPicker.getDocumentAsync({ type: acceptedTypes });
+            // console.log(result);
+            let assets = result.assets;
+            let uri;
+            assets.forEach((item) => {
+                // console.log(`name of file: ${item.mimeType}`);
+                let name = item.name;
+                let type = item.mimeType;
+                uri = item.uri;
+                if (type.startsWith('image/')) {
+                    // console.log(`This be an image: ${name}`);
+                    // console.log(`Image uri: ${uri}`);
+                    setFileType(type); 
+                    setFileUri(uri); // Update fileUri in the context
+                } else if (type.startsWith('text/') || type === 'application/pdf' || type === 'application/msword' || type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || type === "application/*") {
+                    // console.log(`uri: ${uri} `); 
+                    // console.log(`type: ${type} `); 
+                    // console.log(`name: ${name} `); 
+                    setFileUri(uri);
+                    setFileType(type); 
+                }
+            });
+            
         } catch (err) {
-            console.error("error: ", err);
+            console.error('Error: ', err);
         }
     }
 
     return (
-        <View style={{
-            gap: 20,
-            flexDirection: 'column',
-            justifyContent: "space-between",
-            alignItems: 'center',
-        }}>
-            <Text>ICS File Picker</Text>
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-            }}>
-                <Feather style={{
-                    marginTop: 10,
-                    marginRight:20,
-                }} name="file-plus" size={75} color="black" />
-                <TouchableOpacity onPress={PickIcsFile}>
-                    <Text style={styles.choose}>
-                        Pick ICS File
+        <View>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <TouchableOpacity onPress={PickFile}>
+                    <Text style={styles.choose }>
+                    Pick {acceptedTypes.startsWith('text/') || acceptedTypes == "application/*" ? 'Text' : (acceptedTypes === 'image/*' ? 'Image' : 'File')} File
                     </Text>
+
                 </TouchableOpacity>
-                <MaterialCommunityIcons style={{
-                    marginTop: 10,
-                    marginLeft: 20, 
-                }} name="penguin" size={75} color="blue" />
             </View>
-            {icsData && <Text>ICS Content: {icsData}</Text>}
         </View>
-        
-        
     );
 }
-
 
 const styles = StyleSheet.create({
     choose: {
         textAlignVertical: 'center',
         textAlign: 'center',
         borderRadius: 10,
-        backgroundColor: 'pink',
+        backgroundColor: 'orange',
         color: 'black',
-        width: 175,
+        width: '100%', // Set width to 100% to stretch across the page
         height: 75,
         fontSize: 20,
         padding: 10,
         borderColor: 'gold',
         borderWidth: 4,
-    }
-})
-
+    },
+});

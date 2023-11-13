@@ -1,50 +1,143 @@
-import React, {useEffect, useState} from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { CLIENT_ID, API_KEY} from '@env';
-import GoogleCalIntegration from "./GoogleCalIntegration";
-// console.log("API key", API_KEY );
-// console.log(CLIENT_ID);
+import React, { useEffect, useState, useContext } from "react";
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, FlatList } from 'react-native';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FilePicker from "./FilePicker";
-
+import FileContext from "./FileContext";
+import { useNavigation } from "@react-navigation/native";
+import Profile from "./Profile";
+import ParseFile from "./ParseFile";
 export default function HomeScreen({ navigation }) {
+  const { fileUri, fileType} = useContext(FileContext);
+  const navigaton = useNavigation();
+  function handlePengiClick() {
+    console.log("penguin btn clicked");
+    navigation.navigate(Profile);
+  }
 
   return (
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={{ uri: fileUri }}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <View>
+          <TouchableOpacity style={styles.penguinIconContainer} onPress={handlePengiClick}>
+            <MaterialCommunityIcons
+              style={styles.penguinIcon}
+              name="penguin"
+              size={50}
+              color="black"
+            />
+          </TouchableOpacity>
+          <Text style={styles.text}>Calendar implementation</Text>
+        </View>
+        <RenderActivies />
+        <View style={styles.insertDoc}>
+          <FilePicker acceptedTypes="application/*" />
+          {fileUri && <ParseFile />}
+        </View>
+      </View>
+    </ImageBackground>
+  );
+}
 
-    // <GoogleOAuthProvider clientId="427847702764-jua29phddbt73257kb42tc560mdgh7eu.apps.googleusercontent.com">
 
+
+function Activity({ activityType }) {
+  return (
     <View style={{
-      flex: 1,
-      backgroundColor: "orange",
+      flexDirection: "row",
+      marginRight: 40,
     }}>
-
-      <Text
-        style={{
-          fontSize: 20,
-          textAlign: "center",
-          justifyContent: "center",
-          alignContent: "center",
-        }}
-      >Calender implementation</Text>
-      <FilePicker/> 
+      <View style={{
 
 
+        marginTop: 30, backgroundColor: "blue",
+        opacity: 0.5,
+        width: 300,
+        borderRadius: 20,
+        height: 300,
+      }}>
+        <TouchableOpacity style={{
+
+          borderRadius: 20,
+          padding: 10,
+          justifyContent: 'center',
+
+        }}>
+          <Text style={{ color: 'white', fontSize: 16 }}>{activityType}</Text>
+        </TouchableOpacity>
+        <ParseFile/>
+      </View>
+      
 
 
     </View>
-    // </GoogleOAuthProvider>
+  )
+}
+
+function RenderActivies() {
+  let list = [
+    "Activity 1",
+    "Activity 2",
+    "Activity 3",
+    "Activity 4",
+    "Activity 5",
+  ];
+  return (
+    <View>
+      <FlatList
+        horizontal
+        data={list}
+        renderItem={({ item }) => (
+
+          <Activity activityType={item} />
+        )}
+        keyExtractor={(item) => item}
+        style={{ marginTop: 30, gap: 40 }}
+      />
+    </View>
 
   )
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   messageContainer: {
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     marginTop: 10, // Add spacing between the TouchableOpacity and the message
-//   },
-// });
+
+
+
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "top",
+    // alignItems: "center",
+  },
+  text: {
+    fontSize: 20,
+    marginTop: 50,
+    marginLeft: 30,
+    color: "red",
+    marginBottom: 20,
+  },
+  filePickers: {
+    marginTop: 20,
+    flexDirection: 'row',
+    gap: 10,
+  },
+  penguinIconContainer: {
+    position: 'absolute',
+    top: 20, // Adjust as needed
+    right: 20, // Adjust as needed
+    backgroundColor: 'pink',
+    padding: 15,
+    borderRadius: 50,
+    borderColor: 'gold',
+    borderWidth: 2,
+  },
+  penguinIcon: {},
+  insertDoc: {
+    marginTop: 30,  
+    alignItems: 'center'
+  }
+});
