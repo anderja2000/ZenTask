@@ -6,8 +6,8 @@ import FileContext from "./FileContext";
 import { useNavigation } from "@react-navigation/native";
 import Profile from "./Profile";
 import ParseFile from "./ParseFile";
-export default function HomeScreen({ navigation }) {
-
+export default function HomeScreen({ route, navigation }) {
+  const {acceptedTypes} = route.params || {}; 
   const [backgroundUri, setBackgroundUri] = useState(null);
   const { fileUri, fileType } = useContext(FileContext);
   useEffect(() => {
@@ -15,12 +15,15 @@ export default function HomeScreen({ navigation }) {
     if (fileType && fileType.startsWith('image/')) {
       setBackgroundUri(fileUri);
     }
-  }, [fileUri, fileType]);
+    console.log('fileUri:', fileUri);
+    console.log('fileType:', fileType);
+    console.log('backgroundUri:', backgroundUri);
+  }, [fileUri, fileType, backgroundUri]);
 
 
   const navigaton = useNavigation();
   function handlePengiClick() {
-    console.log("penguin btn clicked");
+    // console.log("penguin btn clicked");
     navigation.navigate(Profile);
   }
 
@@ -44,8 +47,9 @@ export default function HomeScreen({ navigation }) {
         </View>
         <RenderActivies />
         <View style={styles.insertDoc}>
-          <FilePicker acceptedTypes="application/*" />
-          {fileUri && <ParseFile />}
+          <FilePicker acceptedTypes={acceptedTypes || "application/*"} />
+          {fileUri && acceptedTypes && acceptedTypes.startsWith('image/') && <ParseFile />}
+
         </View>
       </View>
     </ImageBackground>

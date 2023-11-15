@@ -10,8 +10,8 @@ export default function ParseFile() {
   useEffect(() => {
     if (fileUri && fileType) {
       // Example: Log the fileUri when it changes
-      console.log('FileUri changed:', fileUri);
-      console.log('FileType:', fileType);
+      // console.log('FileUri changed:', fileUri);
+      // console.log('FileType:', fileType);
 
       // Add your parsing logic here using the fileUri
       // You can fetch and parse the contents of the file as needed

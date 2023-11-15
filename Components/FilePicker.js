@@ -7,9 +7,9 @@ import FileContext from './FileContext';
 
 
 export default function FilePicker({ acceptedTypes }) {
-    
-    const { setFileUri, setFileType} = useContext(FileContext);
-   
+
+    const { setFileUri, setFileType } = useContext(FileContext);
+
     async function PickFile() {
         try {
             const result = await DocumentPicker.getDocumentAsync({ type: acceptedTypes });
@@ -21,20 +21,23 @@ export default function FilePicker({ acceptedTypes }) {
                 let name = item.name;
                 let type = item.mimeType;
                 uri = item.uri;
-                if (type.startsWith('image/')) {
+                if (acceptedTypes.startsWith('image/')) {
                     // console.log(`This be an image: ${name}`);
                     // console.log(`Image uri: ${uri}`);
-                    setFileType(type); 
-                    setFileUri(uri); // Update fileUri in the context
-                } else if (type.startsWith('text/') || type === 'application/pdf' || type === 'application/msword' || type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || type === "application/*") {
+                    setFileType(type);
+                    setFileUri(uri); // Update fileUri in the context4
+                    // console.log("this image file", type);
+                } else if (acceptedTypes.startsWith('text/') || acceptedTypes === 'application/pdf' || acceptedTypes === 'application/msword' || acceptedTypes === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || acceptedTypes === "application/*") {
                     // console.log(`uri: ${uri} `); 
                     // console.log(`type: ${type} `); 
                     // console.log(`name: ${name} `); 
                     setFileUri(uri);
-                    setFileType(type); 
+                    setFileType(type);
+                    // console.log('this text file', type);
+                    // navigation.navigate('HomeScreen', { acceptedTypes });
                 }
             });
-            
+
         } catch (err) {
             console.error('Error: ', err);
         }
@@ -49,8 +52,8 @@ export default function FilePicker({ acceptedTypes }) {
                 }}
             >
                 <TouchableOpacity onPress={PickFile}>
-                    <Text style={styles.choose }>
-                    Pick {acceptedTypes.startsWith('text/') || acceptedTypes == "application/*" ? 'Text' : (acceptedTypes === 'image/*' ? 'Image' : 'File')} File
+                    <Text style={styles.choose}>
+                        Pick {acceptedTypes.startsWith('text/') || acceptedTypes == "application/*" ? 'Text' : (acceptedTypes === 'image/*' ? 'Image' : 'File')} File
                     </Text>
 
                 </TouchableOpacity>
