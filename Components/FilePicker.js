@@ -30,7 +30,7 @@ export default function FilePicker({ acceptedTypes }) {
                 } else if (acceptedTypes.startsWith('text/') || acceptedTypes === 'application/pdf' || acceptedTypes === 'application/msword' || acceptedTypes === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || acceptedTypes === "application/*") {
                     // console.log(`uri: ${uri} `); 
                     // console.log(`type: ${type} `); 
-                    // console.log(`name: ${name} `); 
+                    // console.lo---------g(`name: ${name} `); 
                     setFileUri(uri);
                     setFileType(type);
                     // console.log('this text file', type);

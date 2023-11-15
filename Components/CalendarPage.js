@@ -1,6 +1,10 @@
 import { View, Text } from "react-native";  
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { useState } from "react";
+
+//  this is cited from https://www.npmjs.com/package/react-native-calendars 
+
+// and adjusted  accordingly 
 export default function CalendarPage({navigation}) { 
     const [selected, setSelected] = useState('');
 
