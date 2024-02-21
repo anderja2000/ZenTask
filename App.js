@@ -75,3 +75,5 @@ function MainTabs() {
     </Tabs.Navigator>
   );
 }
+
+

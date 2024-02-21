@@ -14,6 +14,8 @@ export default function HomeScreen({ route, navigation }) {
     // Update backgroundUri based on fileType or other conditions
     if (fileType && fileType.startsWith('image/')) {
       setBackgroundUri(fileUri);
+    } else { 
+      setBackgroundUri(null)
     }
     console.log('fileUri:', fileUri);
     console.log('fileType:', fileType);
@@ -47,7 +49,7 @@ export default function HomeScreen({ route, navigation }) {
         </View>
         <RenderActivies />
         <View style={styles.insertDoc}>
-          <FilePicker acceptedTypes={acceptedTypes || "application/*"} />
+          <FilePicker acceptedTypes={acceptedTypes || "application/ *"} />
           {fileUri && acceptedTypes && acceptedTypes.startsWith('image/') && <ParseFile />}
 
         </View>
