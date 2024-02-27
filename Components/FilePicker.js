@@ -13,10 +13,11 @@ export default function FilePicker({ acceptedTypes }) {
 
     async function PickFile() {
         try {
-            const result = await DocumentPicker.getDocumentAsync({ type: acceptedTypes });
+            const result = await DocumentPicker.getDocumentAsync({ type : "*/*" });
             let assets = result.assets;
 
-            assets.forEach((item) => {
+            for (let item of assets) {
+
                 let { name, mimeType, uri } = item;
                 setFileType(mimeType);
 
@@ -35,7 +36,7 @@ export default function FilePicker({ acceptedTypes }) {
                     console.log('Image File:', uri);
                     // Additional logic for handling images can go here
                 }
-            });
+            }
         } catch (err) {
             console.error('Error: ', err);
         }
@@ -52,7 +53,7 @@ export default function FilePicker({ acceptedTypes }) {
             >
                 <TouchableOpacity onPress={PickFile}>
                     <Text style={styles.choose}>
-                    Pick {acceptedTypes.startsWith('text/') ? 'Text' : (acceptedTypes.startsWith('image/') ? 'Image' : 'Text')} File
+                        Pick {acceptedTypes.startsWith('text/') ? 'Text' : (acceptedTypes.startsWith('image/') ? 'Image' : 'Text')} File
                     </Text>
 
                 </TouchableOpacity>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textAlign: 'center',
         borderRadius: 10,
-        backgroundColor: 'orange',  
+        backgroundColor: 'orange',
         color: 'black',
         width: '100%', // Set width to 100% to stretch across the page
         height: 75,
