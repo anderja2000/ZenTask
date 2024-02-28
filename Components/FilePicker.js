@@ -8,7 +8,7 @@ import FileContext from './FileContext';
 
 
 export default function FilePicker({ acceptedTypes }) {
-
+    // set the context to manage global state between files
     const { setFileUri, setFileType } = useContext(FileContext);
 
     async function PickFile() {
